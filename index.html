@@ -1,0 +1,1060 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>PHIL 298 Midterm Drill</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2B47C9">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="PHIL 298">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one centered answer-sheet column. Home screen picks the set, quiz screen shows one question at a time, results list what to revisit.
+   Subject detail: lettered pencil bubbles like the computer-readable sheets Barker uses. */
+:root {
+  --bg: #E9ECF1;
+  --paper: #FAFBFC;
+  --ink: #1B2230;
+  --muted: #566072;
+  --line: #CFD5DE;
+  --accent: #2B47C9;
+  --accent-ink: #FFFFFF;
+  --graphite: #2A303C;
+  --good: #1B7048;
+  --good-bg: #E2F1E8;
+  --bad: #A8322B;
+  --bad-bg: #F7E3E1;
+  --tint: #EEF1F8;
+  --f-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111419; --paper: #191D25; --ink: #E7EAF0; --muted: #9AA4B5; --line: #2D3442;
+    --accent: #93A5FF; --accent-ink: #0F1320; --graphite: #D5DAE4;
+    --good: #66C994; --good-bg: #16302A; --bad: #F2908A; --bad-bg: #3A1F20; --tint: #1F2430;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111419; --paper: #191D25; --ink: #E7EAF0; --muted: #9AA4B5; --line: #2D3442;
+  --accent: #93A5FF; --accent-ink: #0F1320; --graphite: #D5DAE4;
+  --good: #66C994; --good-bg: #16302A; --bad: #F2908A; --bad-bg: #3A1F20; --tint: #1F2430;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--f-body); font-size: 17px; line-height: 1.55; margin: 0;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px;
+}
+.wrap { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(30px, 6vw, 42px); font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-size: 20px; font-weight: 700; }
+p { margin: 0; }
+.mono { font-family: var(--f-mono); font-size: 12.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+.lede { color: var(--muted); max-width: 60ch; }
+header { display: flex; flex-direction: column; gap: 10px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.panel { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.units { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.unit { text-align: left; border: 1.5px solid var(--line); background: var(--paper); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.unit .name { font-family: var(--f-display); font-weight: 700; font-size: 16px; }
+.unit .meta { font-size: 14px; color: var(--muted); }
+.unit.on { border-color: var(--accent); background: var(--tint); }
+.unit[disabled] { cursor: not-allowed; opacity: 0.7; border-style: dashed; }
+.choices { display: flex; flex-direction: column; gap: 8px; }
+.choice { display: flex; gap: 12px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
+.choice input { margin-top: 5px; accent-color: var(--accent); }
+.choice b { font-family: var(--f-display); font-weight: 500; }
+.choice small { display: block; color: var(--muted); font-size: 14px; }
+.toggle { display: flex; gap: 10px; align-items: center; font-size: 15px; }
+.toggle input { accent-color: var(--accent); }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.btn { border: 1.5px solid var(--graphite); background: transparent; border-radius: 8px; padding: 10px 18px; font-family: var(--f-display); font-weight: 500; font-size: 16px; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+.tips { display: grid; gap: 8px; font-size: 15px; color: var(--muted); }
+.tips li { margin-left: 18px; }
+.tips ul { margin: 0; padding: 0; display: grid; gap: 6px; }
+
+.progress { display: flex; align-items: center; gap: 12px; }
+.bar { flex: 1; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+.qhead { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; }
+.chip { font-family: var(--f-mono); font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; color: var(--muted); }
+.stem { font-size: 19px; }
+.quote { white-space: pre-line; border-left: 3px solid var(--line); padding: 2px 0 2px 14px; font-style: italic; color: var(--ink); }
+.opts { display: flex; flex-direction: column; gap: 10px; }
+.opt { display: grid; grid-template-columns: 30px 1fr; gap: 12px; text-align: left; align-items: start; border: 1.5px solid var(--line); background: var(--paper); border-radius: 8px; padding: 12px 14px; min-width: 0; }
+.opt .txt { min-width: 0; overflow-wrap: anywhere; }
+.bubble { width: 28px; height: 28px; border-radius: 50%; border: 1.8px solid var(--graphite); display: grid; place-items: center; font-family: var(--f-mono); font-size: 13px; font-weight: 500; color: var(--graphite); }
+.opt.sel { border-color: var(--accent); background: var(--tint); }
+.opt.sel .bubble { background: var(--graphite); color: var(--paper); }
+.opt.right { border-color: var(--good); background: var(--good-bg); }
+.opt.right .bubble { background: var(--good); border-color: var(--good); color: var(--paper); }
+.opt.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.opt.wrong .bubble { background: var(--bad); border-color: var(--bad); color: var(--paper); }
+.tag { display: block; font-family: var(--f-mono); font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 2px; }
+.opt.right .tag { color: var(--good); }
+.opt.wrong .tag { color: var(--bad); }
+.opt[disabled] { cursor: default; }
+.fb { border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--line); background: var(--tint); }
+.fb.ok { border-color: var(--good); background: var(--good-bg); }
+.fb.no { border-color: var(--bad); background: var(--bad-bg); }
+.fb h3 { font-size: 17px; }
+.fb .ref { font-family: var(--f-mono); font-size: 12.5px; color: var(--muted); }
+
+.score { font-family: var(--f-display); font-weight: 700; font-size: clamp(40px, 9vw, 64px); letter-spacing: -0.03em; line-height: 1; }
+.miss { border-top: 1px solid var(--line); padding-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.miss .a { color: var(--good); font-size: 15.5px; }
+.miss .w { color: var(--muted); font-size: 15px; }
+.foot { font-size: 14px; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+@media (max-width: 480px) { .panel { padding: 16px; } .stem { font-size: 18px; } }
+</style>
+
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <span class="mono">PHIL 298 · Midterm · Thursday Oct 29</span>
+    <h1>Midterm Drill</h1>
+    <p class="lede">Multiple choice written the way Barker writes it, built from your slides and his sneak peek, for all three units. Read all the options, then check.</p>
+  </header>
+
+  <section id="home" class="panel" aria-label="Choose a set">
+    <h2>Pick a unit and a set</h2>
+    <div class="units" id="units"></div>
+    <div class="choices" id="sets" role="radiogroup" aria-label="Question set"></div>
+    <label class="toggle" for="shuffle"><input type="checkbox" id="shuffle" checked> Shuffle question order</label>
+    <div class="row">
+      <button class="btn primary" id="start">Start</button>
+      <button class="btn" id="retry">Retry missed</button>
+    </div>
+    <div class="tips">
+      <span class="mono">Habits worth building</span>
+      <ul>
+        <li>Barker says expect about 30 to 35 questions, each needing more careful reading than a typical MC exam, so fewer of them.</li>
+        <li>Options like “both a and c” are common. Judge every option before you pick.</li>
+        <li>Watch for sufficiency flipped into necessity, and early-stage A.I. swapped for advanced A.I.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="quiz" hidden aria-live="polite">
+    <div class="panel">
+      <div class="progress"><span class="mono" id="pcount">1 / 6</span><div class="bar"><i id="pbar"></i></div><span class="mono" id="pscore">0 right</span></div>
+      <div class="qhead"><span class="mono" id="qnum">Q1</span><span class="chip" id="qtopic"></span></div>
+      <p class="stem" id="stem"></p>
+      <blockquote class="quote" id="quote" hidden></blockquote>
+      <p class="stem" id="ask" hidden></p>
+      <div class="opts" id="opts" role="radiogroup" aria-label="Answer options"></div>
+      <div id="fb" hidden></div>
+      <div class="row">
+        <button class="btn primary" id="check" disabled>Check answer</button>
+        <button class="btn primary" id="next" hidden>Next</button>
+        <button class="btn" id="quit">Back to start</button>
+      </div>
+      <p class="foot">Keys: a to d select, Enter checks or moves on.</p>
+    </div>
+  </section>
+
+  <section id="results" hidden class="panel">
+    <span class="mono">Finished</span>
+    <div class="score" id="rscore"></div>
+    <p id="rnote"></p>
+    <div class="row">
+      <button class="btn primary" id="rretry">Retry missed</button>
+      <button class="btn" id="rhome">Back to start</button>
+    </div>
+    <div id="rlist" style="display:flex;flex-direction:column;gap:14px"></div>
+  </section>
+</main>
+
+<script>
+/* ---------- Question bank. ref numbers match the page numbers of the AI slide deck (3a & 3c). ---------- */
+const Q = [
+/* Barker's sneak peek, AI unit (his questions, lightly condensed) */
+{id:'s1', set:'peek', topic:'Basl · ethics',
+ stem:'At the academic meeting that opens the film, Prof. Hobby proposes building a robot child that can learn to love. A person at the meeting then voices this ethical concern:',
+ quote:'“um…with all this animus existing against Mechas today, it isn’t simply a question of creating a robot who can love, but isn’t the real conundrum, can you get a human to love them back?”',
+ ask:'Which point from our texts is most closely aligned with that concern?',
+ opts:['Schneider’s point that how some A.I. appear to us may be irrelevant to, and misleading about, whether they are conscious.',
+       'Basl’s point that there is a concerning chance we would morally wrong some A.I. simply by creating them.',
+       'Chalmers’ point that most LLMs are “unboxed”, so Schneider’s ACT won’t work well on them.'],
+ ans:1,
+ why:'The speaker worries humans will mistreat Mechas, so creating one that loves may set it up to be wronged. That matches Basl: creating some early-stage A.I. can itself wrong them because they are likely to be mistreated. Option a is Schneider’s warning about appearances, and c is Chalmers on the ACT and unboxed LLMs. Neither is about mistreatment.',
+ ref:'Barker sneak peek Q1 · slides 77, 9'},
+{id:'s2', set:'peek', topic:'Film · relational properties',
+ stem:'Which part of the film exemplifies the idea that some properties a thing can have are relative, in the sense of depending on which other beings the thing is compared to?',
+ opts:['Whether Joe counts as Mecha depends on which A.I. company created him.',
+       'Prof. Hobby says whether a robot counts as conscious depends on whether others perceive it as able to learn to love.',
+       'Whether the sunken Blue Ferry statue is really conscious depends on whether David perceives her as such.',
+       'Martin suggests Teddy was once a “new supertoy” and no longer is, because Teddy can now be compared to David.'],
+ ans:3,
+ why:'The key word in the stem is compared to. Only Martin’s remark turns on a comparison class: Teddy loses “new supertoy” status because David is now there to compare him with. Options b and c are about being perceived, and a is about origin. Those are different concepts from the same slide.',
+ ref:'Barker sneak peek Q2 · slide 30'},
+{id:'s3', set:'peek', topic:'Schneider & Turner · ACT',
+ stem:'The ACT puts questions to a boxed A.I. that a typical adult human would answer with competent use of consciousness concepts and comprehension of scenarios about loss or change of consciousness. What is a main presumption Schneider and Turner make when claiming the ACT is a reliable sufficiency test for consciousness in boxed A.I.?',
+ opts:['That when a typical adult human answers such questions competently, the best explanation is that those answers are based partly on the human’s own felt experiences.',
+       'That if a boxed A.I. fails the ACT questions, this is very strong evidence it has no felt experience and is answering purely mechanically.',
+       'That there are many diverse ways human-like ACT answers can arise: some tap felt experience, others use complex silicon architecture, others a connection to God.'],
+ ans:0,
+ why:'The ACT leans on the human case: competent use of consciousness concepts is best explained by felt experience, and the test then carries that over to boxed A.I. Option b flips a sufficiency test into a necessity test. Class said a failed ACT is not even evidence of no consciousness. Option c is the mimicry worry, which undermines the test.',
+ ref:'Barker sneak peek Q3 · slides 47, 48, 49'},
+{id:'s4', set:'peek', topic:'Chalmers · conclusions',
+ stem:'Which most accurately identifies a conclusion Chalmers argues for about LLMs in his 2023 article?',
+ opts:['The chance that LLMs will evolve by 2040 to become conscious is nearly 100%.',
+       'It’s a serious possibility, perhaps over 25%, that by 2033 some advanced LLMs will be conscious.',
+       'There is over an 80% chance that some current LLMs are already conscious.',
+       'Both a and c.'],
+ ans:1,
+ why:'Slides 61 and 62: for current LLMs he lands at roughly 10% or lower, and for LLM+ systems he says over 25% by 2033 (within ten years). Options a and c inflate those figures, so d fails too.',
+ ref:'Barker sneak peek Q4 · slides 61, 62'},
+{id:'s5', set:'peek', topic:'Chalmers · indicators',
+ stem:'Chalmers analyzes recognized indicators, X, for and against consciousness in LLMs, using the same form each time. Which option accurately pairs one X with his evaluation of it?',
+ opts:['X = General Intelligence: regarded as a central sign of consciousness; LLMs lack human-level general intelligence but are moving that way; its evidential relevance could shrink if the apparent intelligence stems from something unrelated to consciousness.',
+       'X = Biology: current LLMs are not biological, and he thinks being a live biological entity is crucial for consciousness, so this is weighty evidence against current LLMs being conscious.',
+       'X = World Models and Self Models: many experts doubt LLMs are conscious because they aim at modeling text, but Chalmers argues LLMs might learn to model the world and themselves to model text better, and there is initial evidence of this.',
+       'Both a and c.'],
+ ans:3,
+ why:'Options a and c both follow his pattern: does the LLM have or lack X, and does X really count as evidence. Option b is the trap. Slide 56 lists lack of biology as one of six negative indicators he assesses. Checked against Chalmers’ article: he calls the biology view “biological chauvinism” and says silicon is as apt a substrate as carbon, though he still gives it a credence of at least one in three as a requirement. So “crucial” and “weighty evidence” overstate his view, and b is wrong.',
+ ref:'Barker sneak peek Q5 · slides 56, 64, 67'},
+{id:'s6', set:'peek', topic:'Basl · presumption',
+ stem:'Which lists the main considerations Basl gives in favour of a standing but defeasible presumption against creating early-stage artificial consciousnesses?',
+ opts:['Precaution should lead us to treat success as probable; oversight is insufficient; some conscious A.I. would probably be moral patients; it will be hard to tell when that happens and exactly how to treat them.',
+       'Such A.I. would very probably be our moral equals yet we would very probably not treat them as such; the chance we ever create them is very small, but still large enough to advise against it.',
+       'Such artificial consciousnesses would very probably pose significant threats, perhaps existential, to humanity; the magnitude is so great we should avoid them by default until the probability is vanishingly small.'],
+ ans:0,
+ why:'Slide 78 gives five conditions: precaution, insufficient oversight, probable moral patiency, difficulty detecting consciousness, difficulty knowing the treatment owed. Options b and c invent considerations (moral equals, existential threat). Slide 8 sets the existential-risk worry aside as out of scope.',
+ ref:'Barker sneak peek Q6 · slide 78'},
+
+/* Practice set built from the slides */
+{id:'p1', set:'practice', topic:'Meta, epi, ethical',
+ stem:'Which of these is a metaphysical question, as the slides use the term?',
+ opts:['How can we tell or know whether an A.I. has consciousness?',
+       'What is the essential nature of consciousness, and is it possible for an A.I. to be conscious?',
+       'What are our moral duties to the A.I. we create in early-stage research?'],
+ ans:1,
+ why:'Metaphysical asks what something is and what is possible. Option a is epistemic (how we can know). Option c is ethical (what we owe).',
+ ref:'Slide 12'},
+{id:'p2', set:'practice', topic:'Meta, epi, ethical',
+ stem:'Why might it help, before building a good test for A.I. consciousness, to know at least a little about what consciousness essentially is?',
+ opts:['Because a good test (an epistemic matter) may depend on understanding the nature of consciousness (a metaphysical matter).',
+       'Because once we know the nature of consciousness, the ethical questions about A.I. disappear.',
+       'Because metaphysical questions are purely empirical, so scientists alone can settle them.'],
+ ans:0,
+ why:'Slide 17 links metaphysics to epistemics (test design) and to ethics (which treatment is morally problematic). It does not say ethics disappears. Slide 21 says the nature of consciousness is partly metaphysical and partly empirical, so philosophers and scientists both weigh in.',
+ ref:'Slides 17, 21'},
+{id:'p3', set:'practice', topic:'Concepts',
+ stem:'The film asks whether David is a ‘real boy’, ‘real, live boy’, ‘human’, ‘conscious’, ‘original’, or ‘unique’. What is the point of the “take care with concepts” slide?',
+ opts:['These all mean the same thing, so any one can stand in for the others.',
+       'Each concept is distinct in subtle ways, and unless we keep them apart we will not see how they are related and risk confusion.',
+       'Only ‘conscious’ is a real philosophical concept; the rest are movie language.'],
+ ans:1,
+ why:'Slide 13: stay clear and precise about different concepts, because unclear distinctions hide how they are intricately related.',
+ ref:'Slide 13'},
+{id:'p4', set:'practice', topic:'Concepts',
+ stem:'Barker distinguishes uniqueness from originality and from being authentically created. Which example from the slides is unique but not original?',
+ opts:['One of the lecturer’s son’s drawings: one of a kind even though artificially made.',
+       'The last living member of a species.',
+       'An exact replica of an original, made in a lab.'],
+ ans:1,
+ why:'The last living member of a species is unique even though it was not the first of its kind. The drawing (a) shows something unique despite being artificially made, which separates uniqueness from authentic creation. The lab replica (c) is the recreated Monica case about origin.',
+ ref:'Slides 31 to 33'},
+{id:'p5', set:'practice', topic:'Film · features',
+ stem:'On the question of being organic (slide 29), which pair of questions does Barker raise?',
+ opts:['Is being organic essential to consciousness, or could something made of silicon but organized the right way attain it? And is being non-organic at least evidence, though not proof, against consciousness?',
+       'Is being organic proven essential by the film, and is it the only test we need?',
+       'Is being organic irrelevant because only intelligence matters, and can intelligence be checked by the ACT?'],
+ ans:0,
+ why:'Slide 29 asks about essentiality and about usefulness as a test, with “evidence but not proof” wording. The film does not prove anything, and the slide does not dismiss organic status.',
+ ref:'Slide 29'},
+{id:'p6', set:'practice', topic:'Film · features',
+ stem:'Barker asks whether features like emotion and autonomous desire matter to consciousness because they help make something conscious, or because they help us tell that something is conscious. Which reading is epistemic rather than metaphysical?',
+ opts:['They are part of what makes a thing conscious.',
+       'They are evidence we can use to tell that a thing is conscious.',
+       'They decide whether we owe the thing moral duties.'],
+ ans:1,
+ why:'“Tell” and “know” mark the epistemic reading. Option a is the metaphysical reading, and c is ethical. Sorting a claim into meta, epi, or ethical is a skill the exam tests.',
+ ref:'Slide 27'},
+{id:'p7', set:'practice', topic:'Film · ACT',
+ stem:'In the Flesh Fair scene, a strange-looking robot asks to have its pain receptors turned off. What does the slide say this suggests?',
+ opts:['It definitively proves the robot is conscious.',
+       'It suggests, without definitively proving, that there is something it is like to be that robot, since it is concerned about what it would feel.',
+       'It shows the robot is a mechanical parrot repeating human phrases.'],
+ ans:1,
+ why:'Slide 44 uses the careful wording “suggests (but does not definitively prove)” that it is an experiencing subject. “Definitively proves” is the overreach to avoid.',
+ ref:'Slides 28, 44'},
+{id:'p8', set:'practice', topic:'Schneider & Turner · ACT',
+ stem:'Why is the ACT not designed to work on unboxed advanced A.I. such as LLMs?',
+ opts:['LLMs cannot use language at all.',
+       'LLMs are trained on human language about consciousness, so they might learn to mimic competent use of those concepts without being conscious.',
+       'The ACT only works on beings with no language ability.'],
+ ans:1,
+ why:'Slide 45: unboxed A.I. has been trained on consciousness concepts, so passing could be mimicry. Boxed A.I. has not been taken out of the box for such training. Option c is also wrong: with no language the ACT questions could not be understood.',
+ ref:'Slides 45, 46'},
+{id:'p9', set:'practice', topic:'Schneider & Turner · ACT',
+ stem:'In the “epistemic sweet spot” picture, where do infant humans, unboxed LLMs, and a boxed mainframe fall?',
+ opts:['Infants have too much language training, unboxed LLMs too little, a boxed mainframe is in the sweet spot.',
+       'Infants have too little language capability, unboxed LLMs too much language training, a boxed mainframe is in the sweet spot.',
+       'All three are in the sweet spot, but the test is less reliable for infants.'],
+ ans:1,
+ why:'Slide 46: too little language capability (infants) and too much language training (unboxed LLMs) both fall outside the range where the ACT is said to be reliable. The boxed mainframe is the example in the middle.',
+ ref:'Slide 46'},
+{id:'p10', set:'practice', topic:'Schneider & Turner · ACT',
+ stem:'A boxed A.I. fails the ACT. According to the way the ACT is presented in class, what follows?',
+ opts:['That is strong evidence the A.I. is not conscious.',
+       'The result is ambiguous. A conscious baby or fox would also fail, so a failed test is not even evidence of no consciousness.',
+       'The A.I. must be a mechanical parrot.'],
+ ans:1,
+ why:'The ACT is a sufficiency test, not a necessity test. A pass is evidence of consciousness. A fail is silent. This is the most likely trap in ACT questions.',
+ ref:'Slides 47, 48'},
+{id:'p11', set:'practice', topic:'Schneider & Turner · objections',
+ stem:'Udell and Schwitzgebel raise the “mechanical parrot” problem. Which premise of the overall ACT argument does it target, and how?',
+ opts:['Premise 1, by claiming the ACT questions are too easy for any A.I.',
+       'Premise 2, by suggesting that when an A.I. passes, a better explanation can be that it is a mechanical device trained to use consciousness concepts competently without being conscious.',
+       'Premise 3, by claiming the conclusion does not follow from the premises.'],
+ ans:1,
+ why:'Slide 49: premise 2 says the best explanation of a pass is consciousness. The parrot objection offers a rival explanation, like parrots that use human language without grasping it.',
+ ref:'Slide 49'},
+{id:'p12', set:'practice', topic:'Schneider & Turner · objections',
+ stem:'Which best captures the “relevance problem” for the ACT, from Chalmers?',
+ opts:['The ACT’s premises are false even for boxed A.I.',
+       'The ACT may be fine for its intended target, boxed A.I., but LLMs are unboxed, so we need other ways to test them.',
+       'LLMs cannot pass the ACT.'],
+ ans:1,
+ why:'Slide 49: even if the ACT is good for its intended purpose, we have additional needs for testing LLMs, which are unboxed. Chalmers makes the side conclusion on slide 54 that the ACT will not work well for LLMs as we usually use them.',
+ ref:'Slides 49, 54'},
+{id:'p13', set:'practice', topic:'Chalmers · terms',
+ stem:'Which matches how Chalmers uses the terms?',
+ opts:['Consciousness is the capacity for sophisticated goal-directed behavior; intelligence is subjective experience.',
+       'Consciousness (or sentience) is subjective experience; intelligence is the capacity for sophisticated goal-directed behavior; the two can come apart.',
+       'Consciousness and intelligence are the same property measured in different ways.'],
+ ans:1,
+ why:'Slide 58: consciousness is subjective experience (being a bat versus being a water bottle). Organisms often evolved to be conscious before they were intelligent. Option a swaps the definitions.',
+ ref:'Slides 58, 59'},
+{id:'p14', set:'practice', topic:'Chalmers · evidence',
+ stem:'Chalmers notes there is no standard operational definition of consciousness, yet evidence is still possible. What does he say we use as evidence in humans and in non-human animals?',
+ opts:['Brain scans in both.',
+       'Verbal reports in humans, and aspects of behavior in non-human animals.',
+       'Behavior in humans, and verbal reports in animals.'],
+ ans:1,
+ why:'Slide 60. Consciousness is subjective experience, not external performance, which is why it is tricky to study. The two kinds of evidence still differ by species.',
+ ref:'Slide 60'},
+{id:'p15', set:'practice', topic:'Chalmers · structure',
+ stem:'In each of Chalmers’ two overall arguments (current LLMs and future LLM+ systems), which premise holds the analysis of indicators, according to the slides?',
+ opts:['Premise 1: the balance of evidence is as his analyses suggest.',
+       'Premise 2: the probability calculations near the end of the article.',
+       'The conclusion, because it is the only claim he defends.'],
+ ans:0,
+ why:'Slide 62 says premise 2 involves his probability calculations and the more interesting bits are premise 1’s. Slide 63 adds that you must examine his analyses to see whether premise 1 is convincing.',
+ ref:'Slides 62, 63'},
+{id:'p16', set:'practice', topic:'Chalmers · structure',
+ stem:'Chalmers analyses each indicator X with the pattern “If LLMs feature X, then this is evidence they are conscious. LLMs feature X. So this is evidence they are conscious.” What form is this, and what two things are assessed for each X?',
+ opts:['Modus tollens; whether X is rare, and whether it is easy to measure.',
+       'Modus ponens; whether premise 2 is plausible (do LLMs really have or lack X) and whether premise 1 is plausible (is X really evidence).',
+       'Affirming the consequent; whether the conclusion is true and whether it is sound.'],
+ ans:1,
+ why:'If P then Q, P, so Q is modus ponens, which is valid. Slides 66 and 68 say the real work is judging both premises for each X. Affirming the consequent would run If P then Q, Q, so P, which is invalid.',
+ ref:'Slides 64, 66, 68'},
+{id:'p17', set:'practice', topic:'Chalmers · indicators',
+ stem:'Which grouping matches the indicators Chalmers considers?',
+ opts:['Positive: self-reports, conversational ability. Negative: lack of global workspace, lack of unified agency.',
+       'Positive: general intelligence, lack of biology. Negative: self-reports, seems-conscious.',
+       'Positive: world and self models, recurrent processing. Negative: conversational ability, general intelligence.'],
+ ans:0,
+ why:'Slide 56: four positive (self-reports, seems-conscious, conversational ability, general intelligence) and six negative (lack biology, senses and embodiment, world and self models, recurrent processing, global workspace, unified agency).',
+ ref:'Slide 56'},
+{id:'p18', set:'practice', topic:'Chalmers · indicators',
+ stem:'What is Chalmers’ verdict on LLM self-reports of consciousness as an indicator?',
+ opts:['LLMs never produce them, so the indicator is absent.',
+       'Some LLMs do produce them, but he argues for skepticism about whether they are good evidence of consciousness.',
+       'He treats them as decisive evidence.'],
+ ans:1,
+ why:'Slide 66: premise 2 is plausible (some LLMs do report being conscious) but premise 1 is doubtful. The slides pose why he is skeptical as a question. Checked against the article: reports are fragile (changing one word in Lemoine’s question to GPT-3 got “I am not sentient” answers), and LaMDA was trained on a giant corpus of people talking about consciousness, so imitation explains the reports without consciousness.',
+ ref:'Slides 66, 67'},
+{id:'p19', set:'practice', topic:'Basl · moral patients',
+ stem:'Which is Basl’s definition of a moral patient?',
+ opts:['X is a moral patient iff X can reason about morality.',
+       'X is a moral patient iff agents like us are required to take X’s interests into account in our moral deliberations, for X’s sake, when X’s interests are at stake.',
+       'X is a moral patient iff X is conscious.'],
+ ans:1,
+ why:'Slide 72. Option a describes moral agency. Option c is close, but consciousness is a different concept from being owed consideration for your own sake.',
+ ref:'Slide 72'},
+{id:'p20', set:'practice', topic:'Basl · moral patients',
+ stem:'Being a moral patient has three elements on Barker’s breakdown of Basl. Which of these is NOT one of them?',
+ opts:['They have interests, meaning they can be benefited or harmed.',
+       'We are required to take their interests into account in our moral deliberations when those interests are at stake.',
+       'We are required to do that for their sake.',
+       'They can themselves deliberate about morality.'],
+ ans:3,
+ why:'Option d is moral agency. A human infant is the slide’s example of a moral patient who is not a moral agent.',
+ ref:'Slides 72, 73'},
+{id:'p21', set:'practice', topic:'Basl · early-stage A.I.',
+ stem:'In the short piece by Basl and Schwitzgebel, what status do the authors argue early-stage A.I. should have, and what follows?',
+ opts:['The same moral status as humans, so research on it should stop.',
+       'The same moral status as non-human animals, so there should be ethical rules and review committees overseeing research on early-stage A.I.',
+       'No moral status until it passes a consciousness test.'],
+ ans:1,
+ why:'Slide 70. The focus is early-stage A.I. with consciousness capacities similar to non-human animals, not very advanced A.I.',
+ ref:'Slide 70'},
+{id:'p22', set:'practice', topic:'Basl · presumption',
+ stem:'Basl concludes there should be a “defeasible standing presumption” against research programs that create early-stage conscious A.I. What does defeasible mean here?',
+ opts:['The presumption can never be overridden.',
+       'Other considerations could override it in some cases, making a particular program permissible, but the default position is against such programs.',
+       'The presumption applies only to advanced A.I.'],
+ ans:1,
+ why:'Slide 74: case by case, other considerations can defeat the presumption, but if Basl is right we start from a default against the research.',
+ ref:'Slide 74'},
+{id:'p23', set:'practice', topic:'Basl · ethics',
+ stem:'Basl writes that it would “certainly be wrong to hit such a thing in the face with a bat, or to cut off its arm” because of the effect on the being’s welfare. Which point does this support?',
+ opts:['A conscious artificial being of this kind would be our moral equal.',
+       'Even if such a being is not our moral equal, it is a moral patient, because harming it affects its welfare.',
+       'Artificial consciousnesses must receive legal rights identical to humans.'],
+ ans:1,
+ why:'Slide 75: the quote allows that we may have special obligations to our own species and still concludes this kind of artificial consciousness is a moral patient. Barker notes it seems to apply to David.',
+ ref:'Slide 75'},
+{id:'p24', set:'practice', topic:'Basl · ethics',
+ stem:'According to the slides, why might merely creating some early-stage A.I. wrong them, and how does this differ from non-human animals?',
+ opts:['Creation itself is painful to them.',
+       'They are likely to be mistreated, and unlike with animals we are unfamiliar with early-stage A.I., so we may mistakenly mistreat them.',
+       'They will rebel against their creators, so creation is dangerous.'],
+ ans:1,
+ why:'Slide 77. Familiarity with animals makes us more likely to treat them better. Option c is the out-of-scope safety worry from slide 8.',
+ ref:'Slides 8, 77'},
+{id:'p25', set:'practice', topic:'Basl · argument',
+ stem:'In Basl’s argument for a presumption against conscious A.I. research programs (CAIRPs), which two conditions concern what we will be able to know or detect?',
+ opts:['Precaution should lead us to treat success as probable, and oversight is insufficient.',
+       'It will be difficult to detect when early-stage A.I. become conscious with sufficient welfare, and difficult to know exactly what moral treatment we would owe them.',
+       'It is probable that some early-stage A.I. would be moral patients, and precaution is warranted.'],
+ ans:1,
+ why:'Slide 78, conditions (d) and (e). Conditions (a) and (b) are about precaution and oversight, and (c) is about probable moral patiency.',
+ ref:'Slide 78'},
+{id:'p26', set:'practice', topic:'Schneider & Turner · ACT',
+ stem:'What is Schneider and Turner’s stance on defining consciousness before testing for it?',
+ opts:['We must define consciousness formally before we can recognize it in A.I.',
+       'We can recognize indications of consciousness without formally defining it or knowing its neural basis, because each of us grasps something essential about it by introspecting.',
+       'Consciousness can only be detected through neural scans.'],
+ ans:1,
+ why:'Slide 39. The ACT builds on that introspective grasp, asking how quickly and readily an A.I. can use concepts tied to felt experience.',
+ ref:'Slides 39, 41'},
+{id:'p27', set:'practice', topic:'Schneider & Turner · ACT',
+ stem:'Which ordering of ACT challenges runs from elementary to most demanding?',
+ opts:['Ask whether it conceives of itself as more than its physical self; then scenarios like body swapping and life after death; then reasoning about the hard problem of consciousness; then inventing a consciousness-based concept on its own.',
+       'Inventing a consciousness-based concept first, then asking whether it is more than its physical self, then the hard problem, then body swapping.',
+       'The hard problem first, then body swapping, then asking about its physical self, then inventing a concept.'],
+ ans:0,
+ why:'Slide 42 ordering, with the “increasingly difficult” arrow on slide 43. At the most demanding level the machine invents and uses such a concept without relying on human ideas and inputs.',
+ ref:'Slides 42, 43'},
+{id:'p28', set:'practice', topic:'Schneider & Turner · ACT',
+ stem:'Schneider and Turner compare an entity with no conscious experience grasping ideas like minds switching bodies to someone completely deaf from birth appreciating a Bach concerto. What is the analogy meant to show?',
+ opts:['That such scenarios would be exceedingly difficult to comprehend for an entity with no conscious experience whatsoever.',
+       'That deaf people cannot be conscious.',
+       'That a boxed A.I. can never pass the ACT.'],
+ ans:0,
+ why:'Slide 41. The analogy supports the idea that quickly and readily grasping consciousness-based scenarios is an indication of felt experience.',
+ ref:'Slide 41'},
+{id:'p29', set:'practice', topic:'Application',
+ stem:'A classmate says: “ChatGPT answered ACT-style questions fluently, so by Schneider and Turner it is conscious.” Which reply best fits what we studied?',
+ opts:['The ACT is a necessity test, so fluency is irrelevant.',
+       'The ACT was designed for boxed A.I. LLMs are unboxed and trained on our consciousness talk, so a pass could be mimicry. Chalmers notes it won’t work well for LLMs as we often use them.',
+       'The ACT only shows consciousness when an A.I. fails it.'],
+ ans:1,
+ why:'Application questions like this combine slides 45, 49, and 54. Option a is wrong because the ACT is a sufficiency test, not a necessity test. Option c reverses how the test works.',
+ ref:'Slides 45, 49, 54'},
+{id:'p30', set:'practice', topic:'Meta, epi, ethical',
+ stem:'Barker says the texts and the film do different jobs. Which description is right?',
+ opts:['The texts focus mainly on epistemic and ethical issues; the film gives a sense of the metaphysical issues and how they relate to those.',
+       'The texts focus on metaphysical issues; the film focuses on ethical issues only.',
+       'Both focus only on epistemic issues.'],
+ ans:0,
+ why:'Slides 15 to 18. Schneider and Turner and Chalmers lean epistemic, and Basl leans ethical, while the film is where the metaphysical features show up.',
+ ref:'Slides 15 to 18, 37'}
+];
+
+Q.forEach(q => { q.unit = 'ai'; });
+
+/* Minority Report and Matrix banks. Slide numbers match the printed numbers on the 2a/2c deck (MR) and the 1a deck (MX). */
+const Q2 = [
+/* ===== MINORITY REPORT: Barker's sneak peek ===== */
+{unit:'mr', id:'m7', set:'peek', topic:'Huemer · soft determinism',
+ stem:'Ball Rolling Exchange. John Anderton rolls a wooden ball that looks destined to fall. Danny catches it. Then:',
+ quote:'John: “Why’d you catch that?”\nDanny: “Because it was going to fall.”\nJohn: “You’re certain?”\nDanny: “Yeah.”\nJohn: “But it didn’t fall. You caught it. The fact that you prevented it from happening doesn’t change the fact that it was going to happen.”',
+ ask:'Of Huemer’s three Soft Determinism variants, which is most closely aligned with the view John expresses in his last line?',
+ opts:['The one on which, in some cases, which of two actions I perform is predetermined, and yet I can do either one because if I tried either, I would succeed.',
+       'The one on which predetermination is compatible with free will so long as the most proximate causes unfold inside the people performing the acts.',
+       'The one on which free will actually requires determinism because the alternative is randomness, and random acts could not be free.'],
+ ans:0,
+ why:'This is the merely conditional “can” (slides 29 to 30). John implies that if Danny had not tried to catch the ball, it would definitely have fallen, even if determinism ensured Danny was always going to try. That is the first variant. The second is the Internal Cause Argument (slide 32) and the third is the Free-Will-Requires-Determinism Argument (slide 33).',
+ ref:'MR slides 29, 30, 32, 33'},
+{unit:'mr', id:'m8', set:'peek', topic:'Huemer · dilemma against Precrime',
+ stem:'Which of the following most accurately expresses the dilemma argument that Huemer formulates about the Precrime program?',
+ opts:['1. Either behavior of people involved in Precrime is predetermined, or not. 2. If predetermined, then Hard Determinism is true. 3. If not predetermined, then Libertarianism is true. 4. Either Hard Determinism or Libertarianism is true of Precrime.',
+       '1. Either Soft Determinism is true about Precrime, or Hard Determinism is. 2. If Soft Determinism is true, Precrime is unjust. 3. If Hard Determinism is true, Precrime is unjust. 4. Precrime is unjust.',
+       '1. Either behavior of people involved in Precrime is predetermined, or not. 2. If predetermined, then Precrime is unjust. 3. If not predetermined, then Precrime is unjust. 4. Precrime is unjust.'],
+ ans:2,
+ why:'Slide 37. Both horns end in “Precrime is unjust”: if behavior is predetermined we should not punish people for what is beyond their control, and if it is not predetermined there is not sufficient certainty to punish them in advance. Options a and b both mangle the structure (a concludes about which theory is true, b splits on the wrong dividing line).',
+ ref:'MR slide 37'},
+{unit:'mr', id:'m9', set:'peek', topic:'Huemer · relating text to film',
+ stem:'Relate Huemer’s dilemma to the Rolling Box exchange. Suppose John is suggesting that determinism and free will are compatible.',
+ ask:'Which premise in Huemer’s dilemma could John then most reasonably object to, in light of his compatibilism?',
+ opts:['Premise 3, because in this case John would not be a Hard Determinist, so it does not matter what follows from Hard Determinism.',
+       'Premise 1, because that premise can reasonably be read as excluding a middle ground compatibilist position like Soft Determinism.',
+       'Premise 3, because John would not be a Libertarian if he were a Soft Determinist as we are supposing.'],
+ ans:1,
+ why:'Slide 36 notes the dilemma presumes Soft Determinism is false, so a compatibilist has reason to resist the framing in premise 1 (“predetermined, or not”). Honest caveat: premise 2 would arguably also be a natural target for a compatibilist, but it is not offered here, so b is the best of the options given.',
+ ref:'MR slides 36, 37'},
+{unit:'mr', id:'m10', set:'peek', topic:'Film · free will vs determinism',
+ stem:'In Minority Report the pre-cogs have a vision that John Anderton will kill Leo Crow at a specific time, and also John does not kill Leo at that specific time.',
+ ask:'Which is the most accurate statement about those two events?',
+ opts:['One way both can happen: it was predetermined John would not kill Leo at the envisioned time, but also Soft Determinism is true so John would have succeeded in killing Leo if he had tried, and the precogs sometimes envision events that do not happen but would have if people tried.',
+       'One way both can happen: a form of Libertarianism is true, people can freely choose to change their fates after learning from the pre-cogs, and John chose not to kill Leo after learning what the pre-cogs envisioned.',
+       'One way both can happen: Hard Determinism is true so it was always the case John would not kill Leo, and the pre-cogs were mistaken about this murder, and many people in the film are mistaken to think the pre-cogs are never mistaken.',
+       'All of the above.'],
+ ans:3,
+ why:'Slides 21 and 46. Each option describes a coherent reading. Barker’s own take is that, for nearly any scenario, you can build a plausible Libertarian reading and a plausible Hard Determinist reading (slide 73), and the metaphysical and epistemic issues must be kept apart (slide 46). When one option is a possible way and the others are too, “all of the above” is live.',
+ ref:'MR slides 21, 46, 73'},
+
+{unit:'mr', id:'m11', set:'peek', topic:'Susser · moral objection',
+ stem:'Unlike Precrime, some current US predictive policing programs rely on statistical inferences based partly on social identities such as race and peer networks. Which row accurately summarizes (i) a moral objection Susser poses against some of these programs, and (ii) a way Susser foresees some people responding to it?',
+ opts:['(i) If people running the programs acknowledge their predictions are not guaranteed, the programs “instrumentalize” the people they target, “treating their interests as subservient to the interests of others.” (ii) “Some will object that given the existence of predictive profiling tools, and the significant threat of crime, it would be negligent for the police not to use them.”',
+       '(i) The programs treat targeted people as though they have “no ability to freely choose to act non-criminally”, which fails to treat them as moral persons. (ii) Although there is a chance the targets will act non-criminally, the “chance is so vanishingly small in light of massive advances in A.I. predictive technology that it is negligible.”',
+       '(i) The programs are based on statistical inference, which is always morally wrong because inference is fallible. (ii) It cannot always be wrong to rely on statistical inference because every moral decision we make relies on it, and guarantees are not attainable.'],
+ ans:0,
+ why:'Checked against Susser’s article (pp. 284 to 285). He says presuming to know how people will act means either police are sure (treating people as automata) or they think the benefits of guessing outweigh the costs of being wrong (acknowledging moral subjects but instrumentalizing them). The response he foresees is exactly “it would be negligent for the police not to use them.” Row b mixes the first horn with a response Susser never gives, and row c contradicts slide 63 (inaccuracy alone is not the problem).',
+ ref:'MR slides 63, 68 to 70; Susser pp. 284 to 285'},
+
+/* ===== MINORITY REPORT: slide practice ===== */
+{unit:'mr', id:'mp1', set:'practice', topic:'Huemer · free will',
+ stem:'According to Huemer (p.104), which pair of conditions is required for free will?',
+ opts:['Multiple possible futures, though control over which becomes actual is not needed.',
+       'Predictable behavior and the absence of outside coercion.',
+       'More than one possible future, and some control over which possible future becomes actual.',
+       'Control over the future, though more than one possible future is not needed.'],
+ ans:2,
+ why:'Slide 25: (a) Multiple possible futures and (b) Control of future. Both are required, which is why options a and d fail.',
+ ref:'MR slide 25'},
+{unit:'mr', id:'mp2', set:'practice', topic:'Huemer · three families',
+ stem:'Which statement correctly describes one of the three families of views on free will in Huemer’s landscape?',
+ opts:['Hard Determinism: events at macro scales are determined by prior events that cannot be changed, so there is one possible course of future events and no room for free will.',
+       'Libertarianism: everything is predetermined, yet people still have free will.',
+       'Soft Determinism: determinism is false and humans have free will.'],
+ ans:0,
+ why:'Slide 26. Soft Determinism (compatibilism) holds that the type of determinism true of our world is compatible with a type of free will. Libertarianism holds that not everything is predetermined in a way that precludes genuine choice and control.',
+ ref:'MR slide 26'},
+{unit:'mr', id:'mp3', set:'practice', topic:'Huemer · two concepts of “can”',
+ stem:'What is the difference between the control concept and the merely conditional concept of “can”?',
+ opts:['Both require control over whether I try X or Y; they differ only in vocabulary.',
+       'The merely conditional concept requires only that if I try X I will do X and if I try Y I will do Y; the control concept adds that I have control over whether I try X or Y.',
+       'The control concept requires only that if I try X I will do X; the merely conditional concept adds that I control what I try.'],
+ ans:1,
+ why:'Slide 29. On the merely conditional concept, a person can do things even if they are not free to try doing them, which is why it fits comfortably with determinism.',
+ ref:'MR slide 29'},
+{unit:'mr', id:'mp4', set:'practice', topic:'Huemer · arguments for Soft Determinism',
+ stem:'In the Merely Conditional Can Argument for Soft Determinism, which premise does Barker think Huemer would say is the problem?',
+ opts:['Premise 1: if free will needs only the merely conditional “can”, then free will is compatible with determinism.',
+       'Premise 2: free will requires only the merely conditional concept of “can”.',
+       'The conclusion, which does not follow from the premises.'],
+ ans:1,
+ why:'Slide 31. Huemer does not say what is wrong with the argument, but Barker thinks he would say premise 2 fails, since for free will a person additionally needs control over what they will try to do.',
+ ref:'MR slide 31'},
+{unit:'mr', id:'mp5', set:'practice', topic:'Huemer · arguments for Soft Determinism',
+ stem:'The Internal Cause Argument says that if the causes of people’s actions are internal to them, they count as freely choosing even though those causes are beyond their control. Which criticism does Barker attribute to Huemer?',
+ opts:['Premise 1 is doubtful: causes being internal does not make us free in any relevant sense, because those causes also need to be in our control.',
+       'Premise 2 is false: the causes of our actions are never internal to us.',
+       'The argument is invalid because it equivocates on “internal”.'],
+ ans:0,
+ why:'Slide 32. If determinism is true, we lack control over those internal causes, so the argument does not show that free will and determinism are compatible.',
+ ref:'MR slide 32'},
+{unit:'mr', id:'mp6', set:'practice', topic:'Huemer · arguments for Soft Determinism',
+ stem:'The Free-Will-Requires-Determinism Argument runs: (1) if free will is incompatible with randomness, it must be compatible with determinism; (2) free will is incompatible with randomness; so (3) free will is compatible with determinism. Which premise does Barker think Huemer would find dubious, and why?',
+ opts:['Premise 2, because random events can be free.',
+       'The conclusion, because Hard Determinism is obviously true.',
+       'Premise 1, because free will might be incompatible with both randomness and determinism, fitting only a world between them.'],
+ ans:2,
+ why:'Slide 33. Premise 1 presupposes free will must be compatible with either randomness or determinism. Huemer would suspect it fits neither.',
+ ref:'MR slide 33'},
+{unit:'mr', id:'mp7', set:'practice', topic:'Huemer · against Soft Determinism',
+ stem:'Which statement correctly describes the Unchangeable History & Laws Argument (slide 35)?',
+ opts:['It concludes that determinism is true.',
+       'It concludes that if determinism of any sort is true, we do not have free will, and it leaves open that determinism is false.',
+       'It concludes that only Hard Determinism rules out free will, and Soft Determinism escapes.'],
+ ans:1,
+ why:'Slide 35. If determinism (of any sort) is true, our acts follow from laws plus the remote past; we cannot change those, so we could not have acted differently, so no free will. Barker flags that it does not say determinism is true.',
+ ref:'MR slide 35'},
+{unit:'mr', id:'mp8', set:'practice', topic:'Huemer · dilemma',
+ stem:'Barker notes that Huemer’s dilemma against Precrime presumes something about the free will debate. What is it?',
+ opts:['That Libertarianism is false.',
+       'That Soft Determinism is false, that is, free will and determinism are not compatible.',
+       'That the precogs are always accurate.'],
+ ans:1,
+ why:'Slide 36. The “predetermined, or not” split leaves no room for a compatibilist middle.',
+ ref:'MR slide 36'},
+{unit:'mr', id:'mp9', set:'practice', topic:'Huemer · dilemma premise 3',
+ stem:'Premise 3 of Huemer’s dilemma says that if behavior is not predetermined, Precrime is unjust because without sufficient certainty people should not be punished. Which consideration does Barker raise when asking whether premise 3 is true?',
+ opts:['Premise 3 is true by definition of Precrime.',
+       'Very little is certain, even convictions for past murders carry some chance of error, so how much probability is enough, and might a very small chance of someone stopping themselves be outweighed by victims’ very large chance of being victimized?',
+       'Free will is impossible, so premise 3 can never apply.'],
+ ans:1,
+ why:'Slides 37 and 45. Barker’s questions: what counts as “sufficiently certain”, and how victims would weigh in.',
+ ref:'MR slides 37, 45'},
+{unit:'mr', id:'mp10', set:'practice', topic:'Huemer · for Libertarianism',
+ stem:'How does Huemer’s argument for Libertarianism (pp.109 to 110) work?',
+ opts:['It appeals to the Certainty Principle to show that we cannot know determinism is true.',
+       'It argues that the Precrime program must be unjust because the precogs are inaccurate.',
+       'Assuming Hard Determinism, “can” collapses into “does”. Since a hard determinist thinks libertarians should avoid unjustified beliefs, and ought implies can, they must think libertarians do avoid them. So the belief in free will is justified, which the hard determinist wanted to deny.'],
+ ans:2,
+ why:'Slides 40 to 41. It relies on the Ought Implies Can principle and the Rational Belief principle, and is a self-refuting problem for Hard Determinism.',
+ ref:'MR slides 40, 41, 43'},
+{unit:'mr', id:'mp11', set:'practice', topic:'Self-refutation',
+ stem:'Barker draws a parallel between two views that might be self-refuting. Which pair?',
+ opts:['Descartes’ Certainty Principle, read as something he believes true (it might tell us to reject itself), and Hard Determinism packaged with Ought Implies Can and Rational Belief.',
+       'Libertarianism and Soft Determinism.',
+       'The Nape-of-the-Neck test and the Ball Rolling Exchange.'],
+ ans:0,
+ why:'Slide 42. If we cannot prove the Certainty Principle beyond a shred of doubt, it tells us to treat itself as false.',
+ ref:'MR slide 42'},
+{unit:'mr', id:'mp12', set:'practice', topic:'Huemer · free will argument',
+ stem:'Which accurately summarizes Huemer’s Free Will Argument against Precrime (slide 45)?',
+ opts:['People lack free will, so precog visions are always right, so punishment is unjust.',
+       'If people have free will, precog visions of murder are likely but not yet sufficiently certain; people have free will; and if it is likely but not sufficiently certain, suspects should not be punished. So Precrime suspects should not be punished.',
+       'Free will implies the precogs are always wrong, so Precrime should be abolished.'],
+ ans:1,
+ why:'Slide 45. Barker then asks whether switching from punishment to prevention might escape the hard questions.',
+ ref:'MR slide 45'},
+{unit:'mr', id:'mp13', set:'practice', topic:'Metaphysical vs epistemic',
+ stem:'A person seems to choose against the fate a precog envisioned. According to Barker’s key tip, which pair of possibilities should you separate?',
+ opts:['The events were predetermined but the precogs were inaccurate in seeing them (epistemic failure); or the events were not predetermined and the precogs were correct up until some free will was exercised (epistemic change).',
+       'Both possibilities are metaphysical: determinism is either true or false, and nothing epistemic is involved.',
+       'The precogs were always right, or the precogs were always wrong.'],
+ ans:0,
+ why:'Slide 46. Keep metaphysics (predetermined or not) apart from epistemics (what the precogs can see and whether they are accurate).',
+ ref:'MR slide 46'},
+{unit:'mr', id:'mp14', set:'practice', topic:'Susser · technologies',
+ stem:'Susser distinguishes two classes of newer predictive policing technology. Which description is correct?',
+ opts:['Place-based tools try to determine who is at high risk of committing or being a victim of crime; people-based tools try to predict where crime is likely.',
+       'Place-based tools try to predict where crimes are likely to happen; people-based tools try to determine who is at especially high risk of committing crime or being a victim.',
+       'Place-based tools are used only in Canada; people-based tools only in the US.'],
+ ans:1,
+ why:'Slide 57. PredPol and HunchLab are place-based examples (slide 58); the Chicago “Strategic Subjects List” is a people-based example (slide 59).',
+ ref:'MR slides 57 to 59'},
+{unit:'mr', id:'mp15', set:'practice', topic:'Susser · four criticisms',
+ stem:'Once deployed, a tool unintentionally targets marginalized people, which makes it seem they commit more or worse crime, which erroneously feeds back into the tool. Which of Susser’s four criticisms is this?',
+ opts:['Transparency','Bias','Feedback loops','Changed role for police'],
+ ans:2,
+ why:'Slide 61. Transparency is about not being clear how the tech works. Bias is about tech encoding existing biases in the training data. Changed role for police leads to more dubious profiling.',
+ ref:'MR slide 61'},
+{unit:'mr', id:'mp16', set:'practice', topic:'Susser · three arguments',
+ stem:'Barker names three arguments Susser discusses against using accurate statistics to target a community. How does he rank them?',
+ opts:['Certainty Argument strongest, Fairness next, Kantian weakest.',
+       'All three are equally strong.',
+       'Kantian Argument strongest, Fairness more promising, Certainty not so good.'],
+ ans:2,
+ why:'Slide 65. Barker’s worry about the Certainty Argument: does it demand absolute certainty, and is certainty the relevant bar (slide 66)?',
+ ref:'MR slides 65, 66'},
+{unit:'mr', id:'mp17', set:'practice', topic:'Susser · Sheehey',
+ stem:'Sheehey argues that person-based predictive policing sees certain types of people as “bound” to commit crimes. What is Barker’s point about that argument?',
+ opts:['The technology does not presume certainty; defenders can reply that they base use on improved accuracy and efficiency, so a good criticism must be stated differently.',
+       'The argument is decisive because all prediction presumes certainty.',
+       'The argument fails because the technology is in fact perfectly accurate.'],
+ ans:0,
+ why:'Slide 67. If we want to criticize the technology, we have to get the criticism right.',
+ ref:'MR slide 67'},
+{unit:'mr', id:'mp18', set:'practice', topic:'Susser · Kantian argument',
+ stem:'Which option correctly states Susser’s Kantian Argument together with the objection he addresses and his response?',
+ opts:['If the tech ought to be used, police must treat targeted people as ends in themselves; often they are instrumentalized; so the tech ought not be used until this is addressed. Objection: denying potential victims the chance to be spared treats them as mere instruments. Response: use the tech differently, for example in the hands of social workers.',
+       'If the tech is accurate, it ought to be used; it is accurate; so it ought to be used. Objection: it is biased. Response: remove all data.',
+       'If the tech is not certain, it ought not be used; it is not certain; so it ought not be used. Objection: nothing is certain. Response: accept certainty as the standard.'],
+ ans:0,
+ why:'Slides 68 to 72. Option c is the Certainty Argument, not the Kantian one.',
+ ref:'MR slides 68 to 70, 72'},
+{unit:'mr', id:'mp19', set:'practice', topic:'Plot puzzle · Lamar',
+ stem:'Why does Barker call Lamar’s plan to get Anderton to kill Crow puzzling?',
+ opts:['Because Crow sitting alone in a hotel room at Time 2 would not, by itself, seem to cause the precog prediction at Time 3, since Anderton still does not even know Crow.',
+       'Because the precogs would have refused to show the murder to Anderton.',
+       'Because Lamar did not know the precogs existed.'],
+ ans:0,
+ why:'Slides 74 to 77. For the plan to make sense, Lamar has to give Anderton a reason to suspect Crow, yet he has no reason to think the hotel scene would produce that.',
+ ref:'MR slides 74 to 77'},
+{unit:'mr', id:'mp20', set:'practice', topic:'Plot puzzle · bootstrap loop',
+ stem:'Suppose someone rescues Lamar’s plan by appealing to a “bootstrap” causal loop in the film’s world. What problem does Barker raise?',
+ opts:['Loops are physically impossible, so the rescue cannot even be stated.',
+       'A self-contained loop would not depend on Lamar’s planning, and Lamar has no reason to think he can engineer a loop in which a future event causes an earlier one.',
+       'The loop would show that Hard Determinism is false.'],
+ ans:1,
+ why:'Slide 76. Barker also notes a “fuller plan” rescue and calls it a pretty desperate way to interpret the script.',
+ ref:'MR slide 76'},
+
+/* ===== THE MATRIX: Barker's sneak peek and sample ===== */
+{unit:'mx', id:'x0', set:'peek', topic:'Descartes vs Morpheus (in-class sample)',
+ stem:'Which of the following accurately states (i) a presumption Descartes makes when examining what can be known, and (ii) something Morpheus says that seems incompatible with or in tension with it?',
+ opts:['(i) Descartes: we cannot be certain beliefs based on sensory experience are true. (ii) Morpheus: “the way you know your life till now has been an illusion is that you can intuit this by pure reason alone.”',
+       '(i) Descartes: we cannot be certain beliefs based on sensory experience are true. (ii) Morpheus: “You can’t be told what the matrix is; you have to see it for yourself.”',
+       '(i) Descartes: the raw feel of sensory experience shows our sensory beliefs are certainly true. (ii) Morpheus: “You can’t be told what the matrix is; you have to see it for yourself.”'],
+ ans:1,
+ why:'Slide 57. Descartes gives priority to reasoning over experience (slide 27 E), yet Morpheus says you must experience it. Option a puts Morpheus in agreement with Descartes. Option c misstates Descartes. Barker’s point on slide 56: you can rule out answers from a general grasp of the positions, without memorizing lines.',
+ ref:'MX slides 27, 56, 57'},
+{unit:'mx', id:'x12', set:'peek', topic:'Maki · Nape test',
+ stem:'Skepticism vs. Test Scenario. Descartes argues we have no means for being absolutely certain that some of our claims based on experience are true. Maki argues this would be mistaken in The Matrix, proposing a Nape-of-the-Neck test.',
+ quote:'Nape-of-the-Neck test: if Neo feels a mechanical hole on the nape of his own neck, but also sees that at least one or more people around him lack such a hole, then he knows with certainty that he is in the real world and not in the matrix. This works because outside the matrix is the only place where a person could detect both types of people at once.',
+ ask:'Which line of objection has the best chance of uncovering a flaw in Maki’s argument?',
+ opts:['The test will sometimes fail to give certainty, such as when Neo does not feel a hole and all other people he sees also lack one.',
+       'The test cannot give certainty because Descartes’ argument proves such experiential certainty is not possible even in the context of the matrix.',
+       'The test cannot tell Neo with absolute certainty he is outside the matrix because any time he feels the hole and sees others without one, it is possible he is in the matrix and is programmed to have exactly those experiences.'],
+ ans:2,
+ why:'Option a attacks something the test never claims (it is a sufficient-condition test, so failing to apply it is no flaw). Option b assumes the conclusion by appealing to Descartes’ argument. Option c targets the key premise of Maki’s argument, that only the real world could supply both experiences.',
+ ref:'MX slide 53 (Sample Discussion Idea 2)'},
+{unit:'mx', id:'x13', set:'peek', topic:'Epistemic vs metaphysical',
+ stem:'Using the same scenario, which statement is most accurate?',
+ opts:['Descartes’ skeptical thesis is primarily an epistemic thesis because it is about knowledge and limits on how to acquire it.',
+       'Descartes’ skeptical thesis is primarily a metaphysical thesis because it is about the fundamental nature of reality, independently of limits we face in learning about it.',
+       'Maki’s argument is primarily epistemic because it proposes how to overcome an apparent limit on acquiring knowledge.',
+       'Both a and c.'],
+ ans:3,
+ why:'Slides 12 and 18. The Matrix unit focuses primarily on epistemic issues. “Absolutely certain” signals knowledge, and Maki’s test is a proposed way around a limit on knowledge, so a and c are both right.',
+ ref:'MX slides 12, 18'},
+{unit:'mx', id:'x14', set:'peek', topic:'Descartes · Certainty Principle',
+ stem:'Suppose we read Descartes’ Certainty Principle literally (if there is even a shred of doubt about a belief, treat it as false) and combine it with his skeptical thesis that we have no means of being absolutely certain that some experience-based claims are true.',
+ ask:'Which view is then logically entailed?',
+ opts:['We should treat all our claims that are based on experience as false.',
+       'We should treat the claim that knowledge requires certainty as false.',
+       'Neo should treat his presumption that he is a thinking person as false.',
+       'We should treat all our claims based on both experience and introspection as true for us.'],
+ ans:0,
+ why:'Slide 26. The Certainty Principle says to treat what cannot be known with certainty as false. Be careful: the thesis says “some” experience claims lack certainty, so what strictly follows concerns those. Of the options, a is the only one the two together deliver. Option b is about the principle’s own presupposition, and c and d go beyond what is entailed.',
+ ref:'MX slides 26, 42'},
+{unit:'mx', id:'x15', set:'peek', topic:'Bostrom · EXT, MAL, SIM',
+ stem:'Bostrom compares SIM (you are most certainly living in a computer simulation), EXT (extinction of species at our tech level before they can run ancestor simulations), and MAL (nearly all mature species have no interest in running them).',
+ ask:'Which is correct?',
+ opts:['Bostrom argues there is a chance of about 80% that SIM is true.',
+       'Bostrom argues there is a significant chance, around 50%, that SIM and EXT and MAL are all true.',
+       'Bostrom argues that in light of what is currently known, we should believe SIM.',
+       'Bostrom argues that if EXT and MAL are false, then we should think SIM is true.'],
+ ans:3,
+ why:'Slides 29, 30, and 46. The core argument is conditional. Barker says we can read Bostrom as suggesting about 33% that the simulation hypothesis is true (not 80%), and the arguments do not end with SIM itself being established.',
+ ref:'MX slides 29, 30, 46'},
+{unit:'mx', id:'x16', set:'peek', topic:'Bostrom · evaluating premises',
+ stem:'Rebecca objects: “Even if simulated minds vastly outnumber real minds, that is not enough to show we are probably among the simulated ones; we have very strong evidence our minds are not simulated, even if this puts us in a very tiny minority.”',
+ ask:'Which premise would this be an objection to?',
+ opts:['Premise 1: If EXT and MAL are false, then there is very probably a vast number of simulated minds like ours.',
+       'Premise 2: If there is very probably a vast number of simulated minds like ours, then the vast majority of minds like ours are simulated.',
+       'Premise 3: If the vast majority of minds like ours are simulated, then very probably we are among the majority of simulated minds.',
+       'Premise 4: If very probably we are among the majority of simulated minds, then we should think SIM is true.'],
+ ans:2,
+ why:'Slide 47. Premise 3 assumes there is no further reason, beyond basic odds, to assign us to the majority or the minority. Rebecca says we have such a reason. Premise 4 would be objected to by arguing we should not believe we are simulations even if it were probable.',
+ ref:'MX slide 47'},
+
+/* ===== THE MATRIX: slide practice ===== */
+{unit:'mx', id:'xp1', set:'practice', topic:'Descartes · starting point',
+ stem:'Which observations does Descartes begin with, according to Barker?',
+ opts:['That our senses are always reliable and that we never make mistakes.',
+       'That sometimes we are wrong, and that sometimes our senses mislead us, as when dreaming or hallucinating; and he wants a swift, general way to tell which kinds of beliefs and methods are reliable.',
+       'That God proves everything we believe, so no checking is needed.'],
+ ans:1,
+ why:'Slide 25. He does not want to check every belief one by one.',
+ ref:'MX slide 25'},
+{unit:'mx', id:'xp2', set:'practice', topic:'Descartes · method',
+ stem:'Which pair of devices does Barker say Descartes’ method involves?',
+ opts:['The Rational Belief principle and the Ought Implies Can principle.',
+       'The Certainty Principle (if a belief cannot be known with certainty, treat it as false) and the all-powerful evil genius scenario for testing which beliefs could be deceptions.',
+       'The Nape-of-the-Neck test and the Turing test.'],
+ ans:1,
+ why:'Slide 26. Barker also asks whether Descartes uses the principle merely as a tool or presumes it true, and whether that is fishy.',
+ ref:'MX slide 26'},
+{unit:'mx', id:'xp3', set:'practice', topic:'Descartes · conclusions',
+ stem:'Which is one of the conclusions Descartes attempts to argue for (slide 27)?',
+ opts:['That the particular colour and taste of the wax are essential to it.',
+       'That his senses give the best route to knowledge, ahead of reasoning.',
+       'That he exists as only a thinking thing, not also as a human being in the usual bodily sense, and that reasoning and understanding, not the senses, show extension to be essential to perceived physical things.'],
+ ans:2,
+ why:'Slide 27 B, D, and E. Descartes gives a type of priority to reasoning over experience. That is why Morpheus’ “see it for yourself” is in tension with him.',
+ ref:'MX slide 27'},
+{unit:'mx', id:'xp4', set:'practice', topic:'Film vs Descartes (Idea 3)',
+ stem:'Neo asks if you die here when killed in the matrix, and Morpheus says, “The body cannot live without the mind.” What tension does Barker’s Sample Discussion Idea 3 find with Descartes?',
+ opts:['If Descartes is right that all we essentially are is a thinking thing, being killed in the matrix should not kill us, since an algorithm implementing a thinking thing could be run again after one implementation stops.',
+       'Descartes says the body is all that exists, but Morpheus says the mind exists.',
+       'Descartes says the matrix is real, but Morpheus says it is false.'],
+ ans:0,
+ why:'Slide 54. This links the film to Descartes’ claim that he is essentially a thinking thing (slide 27 B).',
+ ref:'MX slides 27, 54'},
+{unit:'mx', id:'xp5', set:'practice', topic:'Film vs Descartes (Idea 1)',
+ stem:'At 21m33s Neo seems to move from a dreaming state to a waking state, and the two seem indistinguishable in terms of their reality. What does Barker say this scene helps with?',
+ opts:['It disproves Descartes’ claim that dreams can feel real.',
+       'It vividly illustrates how real dreams can seem, supporting a premise in one of Descartes’ arguments that we cannot with certainty tell dreaming from waking.',
+       'It shows that Neo is not in the matrix.'],
+ ans:1,
+ why:'Slide 52.',
+ ref:'MX slide 52'},
+{unit:'mx', id:'xp6', set:'practice', topic:'Meta, epi, ethical',
+ stem:'Barker says the Matrix unit’s focus is mostly which of these?',
+ opts:['Primarily epistemic issues, a few metaphysical ones, and not much focus on ethical issues.',
+       'Primarily ethical issues, with a few epistemic ones.',
+       'Only metaphysical issues.'],
+ ans:0,
+ why:'Slide 18. Compare the AI unit, where the texts lean epistemic and ethical and the film shows the metaphysical side.',
+ ref:'MX slide 18'},
+{unit:'mx', id:'xp7', set:'practice', topic:'Bostrom · three things',
+ stem:'Barker asks you to distinguish three things. Which matches?',
+ opts:['The simulation hypothesis is that we are almost certainly in a simulation; the simulation arguments are what Bostrom develops; a conclusion of one argument is that there is a significant chance (about 33% on one reading) that the hypothesis is true.',
+       'The simulation hypothesis, the simulation arguments, and the conclusion are all the same claim.',
+       'The simulation arguments end by proving the simulation hypothesis is true.'],
+ ans:0,
+ why:'Slides 29 and 30. Of course what counts as “significant” depends on context and what we find important.',
+ ref:'MX slides 29, 30'},
+{unit:'mx', id:'xp8', set:'practice', topic:'Bostrom · preliminaries',
+ stem:'Which two things does Bostrom presuppose before the core argument?',
+ opts:['That God exists and that simulations are impossible.',
+       'Substrate independence of consciousness, and that a technologically mature civilization could build computers powerful enough to run an astronomical number of human-like minds with only a tiny fraction of its resources.',
+       'That humans are essentially bodies, and that computers can never be conscious.'],
+ ans:1,
+ why:'Slides 32 and 33.',
+ ref:'MX slides 32, 33'},
+{unit:'mx', id:'xp9', set:'practice', topic:'Bostrom · argument form',
+ stem:'Barker compares Bostrom’s four-premise argument to “downtown Montreal, so Montreal, so Quebec, so Canada, so North America.” What follows from the form being deductively valid?',
+ opts:['That the premises must all be true.',
+       'That if there is a problem, it must be with the content, the premises.',
+       'That the conclusion SIM is true.'],
+ ans:1,
+ why:'Slide 46. A valid form does not guarantee true premises, so evaluation targets the premises.',
+ ref:'MX slide 46'},
+{unit:'mx', id:'xp10', set:'practice', topic:'Bostrom · premise 1',
+ stem:'What is Barker’s initial worry about Premise 1 (“If EXT and MAL are false, then there is very probably a vast number of simulated minds like ours”)?',
+ opts:['That Bostrom may have overlooked third, fourth, or fifth scenarios that count against the likelihood of SIM.',
+       'That the premise assumes we are in the minority.',
+       'That the premise uses an invalid inference.'],
+ ans:0,
+ why:'Slide 47. For Premise 3 the worry is no further reason beyond basic odds, and for Premise 4 the question is whether there might be reasons not to believe we are simulations even if it is very probable that we are.',
+ ref:'MX slide 47'},
+{unit:'mx', id:'xp11', set:'practice', topic:'Bostrom · premise 4',
+ stem:'Which objection targets Premise 4 (“If very probably we are among the majority of simulated minds, then we should think SIM is true”)?',
+ opts:['There could be a third scenario Bostrom ignored.',
+       'Even if it were very probable that we are simulations, there might be reasons for not believing we are.',
+       'The majority of minds are real.'],
+ ans:1,
+ why:'Slide 47. Premise 1 is the one that invites “overlooked scenarios”. Premise 3 invites “other information to consider”.',
+ ref:'MX slide 47'},
+{unit:'mx', id:'xp12', set:'practice', topic:'Bostrom · application',
+ stem:'Suppose EXT is true. What does Bostrom’s core argument (premises 1 to 5) tell us about SIM?',
+ opts:['That SIM must be false.',
+       'That SIM must be true.',
+       'Nothing directly, because the conclusion is conditional on EXT and MAL both being false; if EXT is true, the antecedent is not met.'],
+ ans:2,
+ why:'Slide 46, conclusion 5: if EXT and MAL are false, then we should think SIM is true. This is the same conditional trap as sufficiency vs necessity.',
+ ref:'MX slide 46'},
+{unit:'mx', id:'xp13', set:'practice', topic:'Pollock · brain in a vat',
+ stem:'In Pollock’s story, the narrator (Mike) is told by the scientists that his brain was removed three months ago and he is now a brain in a vat. Why does he end up unable to make up his mind about whether he is one?',
+ opts:['Because the scientists admit the story is a trick, so he knows he is not a brain in a vat.',
+       'Because the computer would give his brain experiences that seem perfectly normal, so whatever he sees is what he would see either way, and he cannot tell how he could check.',
+       'Because he can remove his brain himself and examine it.'],
+ ans:1,
+ why:'Pollock, “A Brain in a Vat”, p. 142. The computer monitors the output of the motor cortex and feeds the sensory cortex, so “everything appears perfectly normal.” Mike asks “how could I tell?” and even considers checking into the clinic. This is the same skeptical structure as Descartes’ evil genius and the matrix.',
+ ref:'Pollock pp. 141 to 142'},
+{unit:'mx', id:'xp14', set:'practice', topic:'Pollock · relating to the film',
+ stem:'Which is the best way to relate Pollock’s brain-in-a-vat story to The Matrix and Descartes?',
+ opts:['Pollock’s computer plays the role of Descartes’ evil genius and the machines’ simulation: a source that supplies experiences indistinguishable from real ones, which is what makes certainty based on experience doubtful.',
+       'Pollock proves that the matrix cannot exist.',
+       'Pollock argues that the senses are perfectly reliable, which supports Descartes.'],
+ ans:0,
+ why:'Pollock’s story is a modern version of the deceiver scenario (slide 26). In the film, the Nape-of-the-Neck test is an attempt to find an experience-based check that such a deceiver could not fake.',
+ ref:'Pollock pp. 141 to 142; MX slide 26'}
+];
+Q.push(...Q2);
+
+const UNITS = [
+  {id:'ai', name:'A.I. Artificial Intelligence', meta:'Schneider & Turner, Chalmers, Basl', open:true},
+  {id:'mr', name:'Minority Report', meta:'Huemer, Susser', open:true},
+  {id:'mx', name:'The Matrix', meta:'Descartes, Bostrom', open:true}
+];
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const LS = 'phil298_missed_v1';
+function loadMissed() { try { return JSON.parse(localStorage.getItem(LS) || '[]'); } catch (e) { return []; } }
+function saveMissed(a) { try { localStorage.setItem(LS, JSON.stringify(a)); } catch (e) {} }
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const letters = ['a', 'b', 'c', 'd', 'e'];
+
+let unit = 'ai', setKey = 'peek';
+let queue = [], idx = 0, picked = null, checked = false, right = 0, missedNow = [];
+
+/* ---------- home ---------- */
+function inUnit() { return Q.filter(q => q.unit === unit); }
+function counts() {
+  const L = inUnit();
+  const peek = L.filter(q => q.set === 'peek').length, prac = L.filter(q => q.set === 'practice').length;
+  return {peek, prac, all: L.length};
+}
+function unitCount(id) { return Q.filter(q => q.unit === id).length; }
+function renderHome() {
+  const c = counts();
+  $('units').innerHTML = '';
+  UNITS.forEach(u => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'unit' + (u.id === unit ? ' on' : ''); b.disabled = !u.open; b.addEventListener('click', () => { unit = u.id; renderHome(); });
+    b.innerHTML = '<span class="name"></span><span class="meta"></span>';
+    b.querySelector('.name').textContent = u.name;
+    b.querySelector('.meta').textContent = u.open ? (unitCount(u.id) + ' questions · ' + u.meta) : u.meta;
+    $('units').appendChild(b);
+  });
+  const sets = [
+    {k:'peek', t:'Barker’s sneak peek', d:c.peek + ' questions from his own sample sheet'},
+    {k:'practice', t:'Slide practice', d:c.prac + ' new questions written from the slides'},
+    {k:'all', t:'Everything', d:c.all + ' questions, mixed'}
+  ];
+  $('sets').innerHTML = '';
+  sets.forEach(s => {
+    const l = document.createElement('label'); l.className = 'choice';
+    l.innerHTML = '<input type="radio" name="set"><span><b></b><small></small></span>';
+    const inp = l.querySelector('input'); inp.value = s.k; inp.checked = s.k === setKey;
+    inp.addEventListener('change', () => { setKey = s.k; });
+    l.querySelector('b').textContent = s.t; l.querySelector('small').textContent = s.d;
+    $('sets').appendChild(l);
+  });
+  const m = loadMissed().filter(id => Q.some(q => q.id === id));
+  $('retry').disabled = m.length === 0;
+  $('retry').textContent = m.length ? 'Retry missed (' + m.length + ')' : 'Retry missed';
+}
+function pool() {
+  return inUnit().filter(q => setKey === 'all' || q.set === setKey);
+}
+/* Option order is shuffled each run so the right answer is not always in the same slot. Questions whose options refer to other letters ("Both a and c") keep their order. Letters named in the explanation text are remapped to match. */
+function prep(q) {
+  const n = q.opts.length, L = 'abcd';
+  const lock = q.opts.some(o => /^(both [a-d] and [a-d]|all of the above)/i.test(o));
+  const order = lock ? q.opts.map((_, i) => i) : shuffle(q.opts.map((_, i) => i));
+  const where = {}; order.forEach((orig, pos) => { where[L[orig]] = L[pos]; });
+  const mapL = x => where[x] || x;
+  let why = q.why.replace(/\b([Oo]ptions?|[Rr]ows?) ([a-d])((?:, [a-d])*)(?: and ([a-d]))?\b/g, (m, w, a, mid, b) =>
+    w + ' ' + mapL(a) + (mid ? mid.replace(/[a-d]/g, mapL) : '') + (b ? ' and ' + mapL(b) : ''));
+  if (q.id === 'x14') why = why.replace('c and d', mapL('c') + ' and ' + mapL('d'));
+  return Object.assign({}, q, {opts: order.map(i => q.opts[i]), ans: order.indexOf(q.ans), why: why});
+}
+function begin(list) {
+  list = list.map(prep);
+  queue = $('shuffle').checked ? shuffle(list) : list;
+  idx = 0; right = 0; missedNow = [];
+  $('home').hidden = true; $('results').hidden = true; $('quiz').hidden = false;
+  show();
+}
+
+/* ---------- quiz ---------- */
+function show() {
+  const q = queue[idx]; picked = null; checked = false;
+  $('pcount').textContent = (idx + 1) + ' / ' + queue.length;
+  $('pbar').style.width = (idx / queue.length * 100) + '%';
+  $('pscore').textContent = right + ' right';
+  $('qnum').textContent = 'Q' + (idx + 1);
+  $('qtopic').textContent = q.topic;
+  $('stem').textContent = q.stem;
+  if (q.quote) { $('quote').hidden = false; $('quote').textContent = q.quote; } else { $('quote').hidden = true; }
+  if (q.ask) { $('ask').hidden = false; $('ask').textContent = q.ask; } else { $('ask').hidden = true; }
+  const box = $('opts'); box.innerHTML = '';
+  q.opts.forEach((t, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'opt'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false'); b.dataset.i = i;
+    b.innerHTML = '<span class="bubble"></span><span class="txt"><span class="tag" hidden></span><span class="t"></span></span>';
+    b.querySelector('.bubble').textContent = letters[i];
+    b.querySelector('.t').textContent = t;
+    b.addEventListener('click', () => pick(i));
+    box.appendChild(b);
+  });
+  $('fb').hidden = true; $('fb').innerHTML = '';
+  $('check').hidden = false; $('check').disabled = true;
+  $('next').hidden = true;
+  $('next').textContent = idx === queue.length - 1 ? 'See results' : 'Next';
+  window.scrollTo({top: 0});
+}
+function pick(i) {
+  if (checked) return;
+  picked = i;
+  [...$('opts').children].forEach((b, j) => {
+    b.classList.toggle('sel', j === i); b.setAttribute('aria-checked', j === i ? 'true' : 'false');
+  });
+  $('check').disabled = false;
+}
+function check() {
+  if (picked === null || checked) return;
+  checked = true;
+  const q = queue[idx], ok = picked === q.ans;
+  if (ok) right++; else missedNow.push(q.id);
+  [...$('opts').children].forEach((b, j) => {
+    b.disabled = true; b.classList.remove('sel');
+    const tag = b.querySelector('.tag');
+    if (j === q.ans) { b.classList.add('right'); tag.hidden = false; tag.textContent = ok ? 'Your answer, correct' : 'Correct answer'; }
+    else if (j === picked) { b.classList.add('wrong'); tag.hidden = false; tag.textContent = 'Your answer'; }
+  });
+  const fb = $('fb'); fb.hidden = false; fb.className = 'fb ' + (ok ? 'ok' : 'no');
+  fb.innerHTML = '<h3></h3><p class="w"></p><span class="ref"></span>';
+  fb.querySelector('h3').textContent = ok ? 'Correct' : 'Not quite. The answer is ' + letters[q.ans] + '.';
+  fb.querySelector('.w').textContent = q.why;
+  fb.querySelector('.ref').textContent = q.ref;
+  $('pscore').textContent = right + ' right';
+  $('pbar').style.width = ((idx + 1) / queue.length * 100) + '%';
+  $('check').hidden = true; $('next').hidden = false; $('next').focus({preventScroll: true});
+}
+function next() {
+  if (!checked) return;
+  if (idx < queue.length - 1) { idx++; show(); } else finish();
+}
+function finish() {
+  $('quiz').hidden = true; $('results').hidden = false;
+  const pct = Math.round(right / queue.length * 100);
+  $('rscore').textContent = right + ' / ' + queue.length;
+  $('rnote').textContent = pct + '%. ' + (missedNow.length ? 'Review the ones below, then retry them.' : 'Clean run. Try the other set or shuffle again.');
+  const prev = loadMissed();
+  const ran = queue.map(q => q.id);
+  const merged = prev.filter(id => !ran.includes(id)).concat(missedNow);
+  saveMissed(merged);
+  const list = $('rlist'); list.innerHTML = '';
+  missedNow.forEach(id => {
+    const q = Q.find(x => x.id === id);
+    const d = document.createElement('div'); d.className = 'miss';
+    d.innerHTML = '<span class="mono"></span><p></p><p class="a"></p><p class="w"></p>';
+    d.querySelector('.mono').textContent = q.topic + ' · ' + q.ref;
+    d.children[1].textContent = q.stem;
+    d.querySelector('.a').textContent = 'Answer ' + letters[q.ans] + ': ' + q.opts[q.ans];
+    d.querySelector('.w').textContent = q.why;
+    list.appendChild(d);
+  });
+  $('rretry').disabled = merged.length === 0;
+  window.scrollTo({top: 0});
+}
+function goHome() { $('quiz').hidden = true; $('results').hidden = true; $('home').hidden = false; renderHome(); window.scrollTo({top: 0}); }
+function retryMissed() {
+  const m = loadMissed();
+  const list = Q.filter(q => m.includes(q.id));
+  if (list.length) begin(list);
+}
+
+$('start').addEventListener('click', () => begin(pool()));
+$('retry').addEventListener('click', retryMissed);
+$('rretry').addEventListener('click', retryMissed);
+$('rhome').addEventListener('click', goHome);
+$('quit').addEventListener('click', goHome);
+$('check').addEventListener('click', check);
+$('next').addEventListener('click', next);
+document.addEventListener('keydown', e => {
+  if ($('quiz').hidden || e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  const q = queue[idx];
+  if (!checked && letters.indexOf(k) > -1 && letters.indexOf(k) < q.opts.length) { pick(letters.indexOf(k)); e.preventDefault(); }
+  else if (e.key === 'Enter') { if (e.target && e.target.tagName === 'BUTTON' && e.target.id === 'quit') return; e.preventDefault(); if (!checked) check(); else next(); }
+});
+
+renderHome();
+</script>
+</body>
+</html>
